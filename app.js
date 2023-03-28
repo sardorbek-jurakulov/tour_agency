@@ -8,6 +8,9 @@ app.use(express.json());
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, "UTF-8"));
 
+app.get("/", (req, res) => {
+  res.send("You are reach to home page");
+});
 
 app.get("/api/v1/tours", (req, res) => {
   res.status(200).json({
@@ -17,6 +20,26 @@ app.get("/api/v1/tours", (req, res) => {
       tours
     }
   });
+});
+
+app.get("/api/v1/tours/:id", (req, res) => {
+  const id = req.params.id * 1;
+  const tour = tours.find(el => el.id === id);
+  if(!tour) {
+    res.status(404).json({
+      "status": "not founded",
+      "data": {
+        tour 
+      }
+    });
+  } else {
+    res.status(200).json({
+      "status": "success",
+      "data": {
+        "tour": "${id} ga teng bo'lgan tour not found"
+      }
+    });
+  }
 });
 
 app.post("/api/v1/tours", (req, res) => {
