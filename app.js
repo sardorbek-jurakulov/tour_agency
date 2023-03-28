@@ -6,7 +6,9 @@ const fs = require("fs");
 // calling middlewares
 app.use(express.json());
 
-const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`, "UTF-8"));
+
+const DB_PATH = `${__dirname}/dev-data/data/tours-simple.json`;
+const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 
 app.get("/", (req, res) => {
   res.send("You are reach to home page");
@@ -46,7 +48,7 @@ app.post("/api/v1/tours", (req, res) => {
   const newTourId = tours[tours.length-1].id + 1;
   const newTour = {id: newTourId, ...req.body};
   tours.push(newTour);
-  fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
+  fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
     if(err) console.log("Some error was occured when writeing data to file, pleace try to rewrite data");
     else {
       res.status(201).json({
