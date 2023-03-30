@@ -11,10 +11,6 @@ app.use(express.json());
 const DB_PATH = `${__dirname}/dev-data/data/tours-simple.json`;
 const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 
-app.get("/", (req, res) => {
-  res.send("You are reach to home page");
-});
-
 app.get("/api/v1/tours", (req, res) => {
   res.status(200).json({
     status: "success",
