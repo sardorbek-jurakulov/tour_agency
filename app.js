@@ -16,6 +16,8 @@ app.use((req, res, next) => {
 const DB_PATH = `${__dirname}/dev-data/data/tours-simple.json`;
 const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 
+
+// route handlers
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
