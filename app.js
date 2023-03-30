@@ -3,9 +3,11 @@ const e = require("express");
 const express = require("express");
 const app = express();
 const fs = require("fs");
+const morgan = require("morgan");
 
 // calling middlewares
 app.use(express.json());
+app.use(morgan("dev"));
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString()
@@ -128,12 +130,47 @@ const deleteTour = (req, res) => {
   }
 };
 
-// app.get("/api/v1/tours", getAllTours);
-// app.post("/api/v1/tours", createTour);
-// app.get("/api/v1/tours/:id", getTour);
-// app.patch("/api/v1/tours/:id", updateTour);
-// app.delete("/api/v1/tours/:id", deleteTour);
+const getAllUsers = (req, res) => {
+  res.status(500).json({
+    status: "Internel server error",
+    message: "This route is not yet defined!",
+    data: {}
+  });
+};
 
+const createUser = (req, res) => {
+  res.status(500).json({
+    status: "Internel server error",
+    message: "This route is not yet defined!",
+    data: {}
+  });
+};
+
+const getUser = (req, res) => {
+  res.status(500).json({
+    status: "Internel server error",
+    message: "This route is not yet defined!",
+    data: {}
+  });
+};
+
+const updateUser = (req, res) => {
+  res.status(500).json({
+    status: "Internel server error",
+    message: "This route is not yet defined!",
+    data: {}
+  });
+};
+
+const deleteUser = (req, res) => {
+  res.status(500).json({
+    status: "Internel server error",
+    message: "This route is not yet defined!",
+    data: {}
+  });
+};
+
+// routes
 app.route("/api/v1/tours")
    .get(getAllTours)
    .post(createTour);
@@ -141,7 +178,16 @@ app.route("/api/v1/tours")
 app.route("/api/v1/tours/:id")
    .get(getTour)
    .patch(updateTour)
-   .delete(deleteTour)
+   .delete(deleteTour);
+
+app.route("/api/v1/users")
+   .get(getAllUsers)
+   .post(createUser);
+
+app.route("/api/v1/users/:id")
+   .get(getUser)
+   .patch(updateUser)
+   .delete(deleteUser);
 
 const port = 3000;
 app.listen(port, () => {
