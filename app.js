@@ -7,6 +7,11 @@ const fs = require("fs");
 // calling middlewares
 app.use(express.json());
 
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString()
+  next();
+});
+
 
 const DB_PATH = `${__dirname}/dev-data/data/tours-simple.json`;
 const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
@@ -14,6 +19,7 @@ const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 const getAllTours = (req, res) => {
   res.status(200).json({
     status: "success",
+    requestedAt: req.requestTime,
     results: tours.length,
     data: {
       tours
