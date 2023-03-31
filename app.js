@@ -1,5 +1,4 @@
 // importing packages
-const e = require("express");
 const express = require("express");
 const app = express();
 const fs = require("fs");
@@ -171,11 +170,14 @@ const deleteUser = (req, res) => {
 };
 
 // routes
-app.route("/api/v1/tours")
+const tourRouter = express.Router();
+tourRouter
+   .route("/api/v1/tours")
    .get(getAllTours)
    .post(createTour);
 
-app.route("/api/v1/tours/:id")
+tourRouter
+   .route("/api/v1/tours/:id")
    .get(getTour)
    .patch(updateTour)
    .delete(deleteTour);
