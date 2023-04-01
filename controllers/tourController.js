@@ -3,12 +3,6 @@ const express = require("express");
 
 const app = express();
 
-app.use(express.json());
-app.use((req, res, next) => {
-  req.requestTime = new Date().toISOString()
-  next();
-});
-
 const DB_PATH = `${__dirname}/../dev-data/data/tours-simple.json`;
 const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 
@@ -72,9 +66,11 @@ exports.updateTour = (req, res) => {
   if(updatingTourIndex === -1) {
     res.status(404).json({
       "status": "not founded",
+      "message": `tour with id ${id} is not found in tours`,
       "data": {}
     });
   } else {
+    console.log(req.body);
     const updatedTour = {id, ...req.body}
     tours.splice(updatingTourIndex, 1, updatedTour);
     fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
