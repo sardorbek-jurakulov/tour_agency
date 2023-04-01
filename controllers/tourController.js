@@ -6,6 +6,20 @@ const app = express();
 const DB_PATH = `${__dirname}/../dev-data/data/tours-simple.json`;
 const tours = JSON.parse(fs.readFileSync(DB_PATH, "UTF-8"));
 
+exports.checkID = (req, res, next, val) => {
+  const requestedTourIndex = tours.findIndex(el => el.id === req.params.id * 1);
+  if(requestedTourIndex === -1) {
+    return res.status(404).json({
+      "status": "not founded",
+      "message": `No element found with id ${val} in tours`,
+      "data": {}
+    });
+  } else {
+    req.requestedTourIndex = requestedTourIndex;
+  }
+  next();
+}
+
 // route handlers
 exports.getAllTours = (req, res) => {
   res.status(200).json({
@@ -19,22 +33,12 @@ exports.getAllTours = (req, res) => {
 }; 
 
 exports.getTour = (req, res) => {
-  const id = req.params.id * 1;
-  const tour = tours.find(el => el.id === id);
-  if(!tour) {
-    res.status(404).json({
-      "status": "not founded",
-      "data": {
-      }
-    });
-  } else {
-    res.status(200).json({
-      "status": "success",
-      "data": {
-        "tour": tour
-      }
-    });
-  }
+  res.status(200).json({
+    "status": "success",
+    "data": {
+      "tour": tours[req.requestedTourIndex]
+    }
+  });
 };
 
 exports.createTour = (req, res) => {
@@ -62,59 +66,40 @@ exports.createTour = (req, res) => {
 
 exports.updateTour = (req, res) => {
   const id = req.params.id * 1;
-  const updatingTourIndex = tours.findIndex(tour => tour.id === id);
-  if(updatingTourIndex === -1) {
-    res.status(404).json({
-      "status": "not founded",
-      "message": `tour with id ${id} is not found in tours`,
-      "data": {}
-    });
-  } else {
-    console.log(req.body);
-    const updatedTour = {id, ...req.body}
-    tours.splice(updatingTourIndex, 1, updatedTour);
-    fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
-      if(err) {
-        res.status(500).json({
-          status: "Internal Server Error",
-          message: "Some error was occured when writeing data to the database, pleace try to update data",
-          data: {},
-        });
-      } else {
-        res.status(200).json({
-          "status": "success",
-          "data": {
-            "tour": updatedTour
-          }
-        });
-      }
-    })
-  }
+  const updatedTour = { id, ...req.body}
+  tours.splice(req.requestedTourIndex, 1, updatedTour);
+  fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
+    if(err) {
+      res.status(500).json({
+        status: "Internal Server Error",
+        message: "Some error was occured when writeing data to the database, pleace try to update data",
+        data: {},
+      });
+    } else {
+      res.status(200).json({
+        "status": "success",
+        "data": {
+          "tour": updatedTour
+        }
+      });
+    }
+  });
 };
 
 exports.deleteTour = (req, res) => {
-  const deletingTourIndex = tours.findIndex(tour => tour.id === (req.params.id * 1));
-
-  if(deletingTourIndex === -1) {
-    res.status(404).json({
-      "status": "not founded",
-      "data": {}
-    });
-  } else {
-    tours.splice(deletingTourIndex, 1);
-    fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
-      if(err) { 
-        res.status(500).json({
-          status: "Internal Server Error",
-          message: "Some error was occured when writeing data to the database, pleace try to delete data",
-          data: {}
-        });
-      } else {
-        res.status(204).json({
-          status: "No Content",
-          data: null
-        });
-      }
-    })
-  }
+  tours.splice(req.requestedTourIndex, 1);
+  fs.writeFile(DB_PATH, JSON.stringify(tours), err => {
+    if(err) { 
+      res.status(500).json({
+        status: "Internal Server Error",
+        message: "Some error was occured when writeing data to the database, pleace try to delete data",
+        data: {}
+      });
+    } else {
+      res.status(204).json({
+        status: "No Content",
+        data: null
+      });
+    }
+  });
 };
