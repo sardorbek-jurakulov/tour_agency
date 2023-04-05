@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.static(`${__dirname}/public`));
+app.use(express.static(`${__dirname}/dev-data/data`));
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
