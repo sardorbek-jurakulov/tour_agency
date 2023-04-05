@@ -1,15 +1,4 @@
-const Tour = require('./../models/tourModel');
-
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(400).json({
-      status: 'Bad request',
-      message: 'Missing name or price',
-      data: {},
-    });
-  }
-  next();
-};
+const Tour = require('../models/tourModel');
 
 // route handlers
 exports.getAllTours = async (req, res) => {
@@ -27,7 +16,6 @@ exports.getAllTours = async (req, res) => {
     res.status(404).json({
       status: 'Not found',
       message: 'Bad request',
-      data: {},
     });
   }
 };
@@ -45,7 +33,6 @@ exports.getTour = async (req, res) => {
     res.status(404).json({
       status: 'Failed',
       message: 'Tour not found',
-      data: {},
     });
   }
 };
@@ -63,23 +50,40 @@ exports.createTour = async (req, res) => {
     res.status(400).json({
       status: 'failed',
       message: 'Invalid data sent!',
-      data: {},
     });
   }
 };
 
-exports.updateTour = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    data: {
-      // tour: updatedTour,
-    },
-  });
+exports.updateTour = async (req, res) => {
+  try {
+    const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour: updatedTour,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'Not Found',
+      message: 'Requested tour not found',
+    });
+  }
 };
 
-exports.deleteTour = (req, res) => {
-  res.status(204).json({
-    status: 'No Content',
-    data: null,
-  });
+exports.deleteTour = async (req, res) => {
+  try {
+    const deletedTour = await Tour.deleteOne({ _id: req.params.id });
+    res.status(204).json({
+      status: 'No Content',
+      data: deletedTour,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'Not found',
+      message: 'Requested tour not found',
+    });
+  }
 };
