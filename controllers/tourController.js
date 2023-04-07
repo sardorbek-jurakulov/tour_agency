@@ -21,7 +21,8 @@ exports.getAllTours = async (req, res) => {
       // const sortBy = req.query.sort.replace(',', ' ');
       query = query.sort(sortBy);
     } else {
-      query = query.sort('-createdAt');
+      // quyidagi name propertysi ma'lumotlar bir vaqtda saqlanib qolgani uchun paginatsiyada muammo bo'ldi shuning uchun sortlashda qo'shimcha parametrni ishlatishga to'g'ri keldi odatda ma'lumotlar bir vaqtda saqlanib qolmaydi, shuning uchun odatda faqat createdAt propertysiga ko'ra sortlasak bo'ladi boshqa propertsiz
+      query = query.sort('-createdAt, name');
     }
 
     // 3) Field limiting
@@ -32,8 +33,20 @@ exports.getAllTours = async (req, res) => {
       query = query.select('-__v');
     }
 
+    // 4) Pagination
+    const page = req.query.page * 1 || 1;
+    const limit = req.query.limit * 1 || 10;
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(limit);
+
+    if (req.query.page) {
+      const numTours = await Tour.countDocuments();
+      if (skip >= numTours) throw new Error('This page does not exists');
+    }
+
     // EXECUTE QUERY
     const tours = await query;
+    // query.sort().select().skip().limit()
 
     // const query = Tour.find()
     //   .where('duration')
