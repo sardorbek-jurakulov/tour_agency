@@ -123,6 +123,7 @@ exports.updateTour = async (req, res) => {
       new: true,
       runValidators: true,
     });
+    console.log(updatedTour);
     res.status(200).json({
       status: 'success',
       data: {
@@ -132,7 +133,7 @@ exports.updateTour = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'Not Found',
-      message: 'Requested tour not found',
+      message: err,
     });
   }
 };
