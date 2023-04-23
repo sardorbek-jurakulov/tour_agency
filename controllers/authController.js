@@ -34,13 +34,17 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!email.trim() || !password?.trim()) {
     return next(new AppError('Please provide email and password!', 400));
   }
+
   // 2) Check if user exists && password is correct
+  const user = await User.findOne({ email }).select('+password');
 
   // 3) If everything ok, send token to client
   const token = '';
   res.status(200).json({
     status: 'success',
     token,
-    data: {},
+    data: {
+      user,
+    },
   });
 });
