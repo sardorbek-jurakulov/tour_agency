@@ -32,17 +32,15 @@ exports.login = catchAsync(async (req, res, next) => {
 
   // 1) Check if email and password exist
   if (!email.trim() || !password?.trim()) {
-    next(new AppError('Please provide email and password!', 400));
-  } else {
-    const token = '';
-    res.status(200).json({
-      status: 'success',
-      token,
-      data: {},
-    });
+    return next(new AppError('Please provide email and password!', 400));
   }
   // 2) Check if user exists && password is correct
 
   // 3) If everything ok, send token to client
-  
+  const token = '';
+  res.status(200).json({
+    status: 'success',
+    token,
+    data: {},
+  });
 });
