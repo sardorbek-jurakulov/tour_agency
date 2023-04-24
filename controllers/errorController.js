@@ -73,11 +73,9 @@ module.exports = (err, req, res, next) => {
       error = handleValidationErrorDB(error);
     }
     if (error.name === 'JsonWebTokenError') {
-      // error = handleJWTError(error); // sababi shu funksiyani ichida argumentni ishlatmayapmiz
       error = handleJWTError();
     }
     if (error.name === 'TokenExpiredError') {
-      // error = handleJWTExpiredError(error); // sababi shu funksiyani ichida argumentni ishlatmayapmiz
       error = handleJWTExpiredError();
     }
     sendErrorProd(error, res);
