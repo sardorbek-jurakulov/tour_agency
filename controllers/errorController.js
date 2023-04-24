@@ -19,6 +19,12 @@ const handleValidationErrorDB = (err) => {
   return new AppError(message, 400);
 };
 
+const handleJWTError = () =>
+  new AppError('You are not logged in. Please log in again.', 401);
+
+const handleJWTExpiredError = () =>
+  new AppError('Your login time has been expired! Please log in again', 401);
+
 const sendErrorDev = (err, res) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -39,7 +45,7 @@ const sendErrorProd = (err, res) => {
     // Programming or other  unknown error: don't leak error details
   } else {
     // 1) Log error
-    // console.error('ERROR', err);
+    console.error('ERROR', err);
     // 2) Send generic message
     res.status(500).json({
       status: 'error',
@@ -65,6 +71,14 @@ module.exports = (err, req, res, next) => {
     }
     if (error.name === 'ValidationError') {
       error = handleValidationErrorDB(error);
+    }
+    if (error.name === 'JsonWebTokenError') {
+      // error = handleJWTError(error); // sababi shu funksiyani ichida argumentni ishlatmayapmiz
+      error = handleJWTError();
+    }
+    if (error.name === 'TokenExpiredError') {
+      // error = handleJWTExpiredError(error); // sababi shu funksiyani ichida argumentni ishlatmayapmiz
+      error = handleJWTExpiredError();
     }
     sendErrorProd(error, res);
   }
