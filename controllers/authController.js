@@ -34,8 +34,8 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 exports.login = catchAsync(async (req, res, next) => {
   // const { email, password } = req.body;
-  const email = req.body.email ?? "";
-  const password = req.body.password ?? "";
+  const email = req.body.email ?? '';
+  const password = req.body.password ?? '';
 
   // 1) Check if email and password exist
   if (!email.trim() || !password?.trim()) {
@@ -88,3 +88,14 @@ exports.protect = catchAsync(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+exports.restrictTo = (...roles) => {
+  return (req, res, next) => {
+    // roles ['admin', 'lead-guide']. role='user'
+    if(!roles.includes(req.user.role)) {
+      return next(new AppError('You do not have permission to perform this action', 403));
+    }
+
+    next();
+  }
+}
