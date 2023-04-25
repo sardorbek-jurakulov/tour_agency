@@ -23,22 +23,27 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide a password!'],
     minlength: 8,
+    select: false,
   },
   passwordConfirm: {
     type: String,
     required: [true, 'Please confirm your password!'],
     validate: {
-      // THIS ONLY WORKS ON CREATE AND SAVE!!!
+      // This only works on Create and Save methods
       validator: function (val) {
         return val === this.password;
       },
       message: 'Passwords are not the same!',
     },
   },
+  passwordChangedAt: {
+    type: Date,
+    required: true,
+  },
 });
 
 userSchema.pre('save', async function (next) {
-  // Only run this function if password was actually modified
+  // Only run this function if password  was actually modified
   if (!this.isModified('password')) {
     return next();
   }
@@ -48,7 +53,29 @@ userSchema.pre('save', async function (next) {
 
   // Delete passwordConfirm field
   this.passwordConfirm = undefined;
+  next();
 });
+
+userSchema.methods.correctPassword = async function (
+  candidatePassword,
+  userPassword
+) {
+  return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
+  if (this.passwordChangedAt) {
+    const changedTimestamp = parseInt(
+      this.passwordChangedAt.getTime() / 1000,
+      10
+    );
+
+    return JWTTimestamp < changedTimestamp;
+  }
+
+  // False means NOT changed
+  return false;
+};
 
 const User = mongoose.model('User', userSchema);
 // model o'zgaruvchisi katta harfda bo'lgani yaxshi
