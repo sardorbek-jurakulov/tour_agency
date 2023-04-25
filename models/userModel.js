@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
@@ -45,6 +46,12 @@ const userSchema = new mongoose.Schema({
     type: Date,
     // required: true,
   },
+  passwordResetToken: {
+    type: String,
+  },
+  passwordResetExpires: {
+    type: Date,
+  },
 });
 
 userSchema.pre('save', async function (next) {
@@ -81,6 +88,11 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
   // False means NOT changed
   return false;
 };
+
+userSchema.methods.createPasswordResetToken = function () {
+  const resetToken = crypto.randomBytes(32).toString('hex');
+  crypto.createHash('sha256').update(resetToken).digest('hex');
+}
 
 const User = mongoose.model('User', userSchema);
 // model o'zgaruvchisi katta harfda bo'lgani yaxshi
