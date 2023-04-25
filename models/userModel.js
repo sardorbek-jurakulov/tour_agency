@@ -91,8 +91,17 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
 
 userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
-  crypto.createHash('sha256').update(resetToken).digest('hex');
-}
+  this.passwordResetToken = crypto
+    .createHash('sha256')
+    .update(resetToken)
+    .digest('hex');
+
+  console.log({ resetToken }, this.passwordResetToken);
+
+  this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+
+  return resetToken;
+};
 
 const User = mongoose.model('User', userSchema);
 // model o'zgaruvchisi katta harfda bo'lgani yaxshi
