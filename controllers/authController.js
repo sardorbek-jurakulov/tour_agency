@@ -111,7 +111,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   
   // 2) Generate the random reset token
   const resetToken = user.createPasswordResetToken();
-  // await user.save({ validateBeforeSave: false });
+  await user.save({ validateBeforeSave: false });
   
   // 3) Send it to user's email
   const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`;
@@ -139,18 +139,24 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on the token
-  const hashedToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+  const hashedToken = crypto
+  .createHash('sha256')
+  .update(req.params.token)
+  .digest('hex');
 
-  const user = await User.findOne(
-    { 
-      passwordResetToken: hashedToken, 
-      passwordResetExpires: {$gt: Date.now() } 
-    }
-  );
+  const user = await User.findOne({ 
+    passwordResetToken: hashedToken, 
+    passwordResetExpires: {$gt: Date.now() } 
+  });
+  console.log(user);
+  console.log(`user.passwordResetToken = ${user.passwordResetToken}`);
+  console.log(`hashedToken = ${hashedToken}`);
+  console.log(`user.passwordResetExpires = ${user.passwordResetExpires}`);
+  console.log(`Date.now = ${Date.now()}`);
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
-    return next(new AppError('Token is invalid or has expired', 401));
+    return next(new AppError('Token is invalid or has expired', 400));
   }
   user.password = req.body.password;
   user.passwordConfirm = req.body.passwordConfirm;
