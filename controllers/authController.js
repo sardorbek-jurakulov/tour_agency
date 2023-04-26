@@ -1,4 +1,4 @@
-const crypt = require('crypto');
+const crypto = require('crypto');
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
@@ -119,7 +119,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
   const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\n If you didn't forgot your password, please ignore this email!`;
 
   try {
-    console.log("In Try");
     await sendEmail({
       email: user.email,
       subject: 'Your password reset token (valid for 10 min)',
@@ -131,7 +130,6 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
       message: 'Token sent to email!'
     });
   } catch (err) {
-    console.log("In Catch");
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
     await user.save({ validateBeforeSave: false });
