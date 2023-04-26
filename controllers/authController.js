@@ -148,11 +148,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     passwordResetToken: hashedToken, 
     passwordResetExpires: {$gt: Date.now() } 
   });
-  console.log(user);
-  console.log(`user.passwordResetToken = ${user.passwordResetToken}`);
-  console.log(`hashedToken = ${hashedToken}`);
-  console.log(`user.passwordResetExpires = ${user.passwordResetExpires}`);
-  console.log(`Date.now = ${Date.now()}`);
 
   // 2) If token has not expired, and there is user, set the new password
   if (!user) {
@@ -172,4 +167,14 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
     status: 'success',
     token
   });
+});
+
+exports.updatePassword = catchAsync(async (req, res, next) => {
+  // 1) Get user from collection
+  const user = User.findOne({})
+  // 2) Check if POSTed current password is correct
+
+  // 3) If so, update password
+
+  // 4) Log user in, send JWT
 });
