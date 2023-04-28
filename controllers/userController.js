@@ -7,6 +7,16 @@ const app = express();
 
 app.use(express.json());
 
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) {
+      newObj[el] = obj[el];
+    }
+  });
+  return newObj;
+};
+
 // route handlers
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const users = await User.find();
@@ -30,18 +40,20 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       )
     );
   }
-  // 2) Update user document
-  const user = await User.findByIdAndUpdate(req.user.id);
-  // if(!user) {
-  //   return next(new AppError(''));
-  // }
-  req.user.name = req.body.name?.trim() ?? req.user.name;
-  req.user.email = req.body.email?.trim() ?? req.user.email;
-  await req.user.save({ validateBeforeSave: false});
+
+  // 2) Filtered out unwanted fields names that are not allowed to be updated
+  const filteredBody = filterObj(req.body, 'name', 'email');
+
+  // 3) Update user document
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
+    new: true,
+    runValidators: true,
+  });
+
   res.status(200).json({
     status: 'success',
     data: {
-      user: req.user,
+      user: updatedUser,
     },
   });
 });
