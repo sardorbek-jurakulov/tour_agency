@@ -31,6 +31,9 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   // 2) Update user document
+  res.status(200).json({
+    status: 'success',
+  });
 });
 
 exports.createUser = (req, res) => {
