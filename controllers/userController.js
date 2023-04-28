@@ -1,6 +1,7 @@
 const express = require('express');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
+const AppError = require('../utils/appError');
 
 const app = express();
 
@@ -22,14 +23,14 @@ exports.getAllUsers = catchAsync(async (req, res, next) => {
 exports.updateMe = catchAsync(async (req, res, next) => {
   // 1) Create error if user POSTs password date
   if (req.body.password || req.body.passwordConfirm) {
-    return next(new AppError('', 400));
+    return next(
+      new AppError(
+        'This route is not for password updates. Please use /updateMyPassword .',
+        400
+      )
+    );
   }
   // 2) Update user document
-  
-  if(!user) {
-    return next(new AppError('', 401));
-  }
-  const user = User.findOne({ email: req.body.email});
 });
 
 exports.createUser = (req, res) => {
