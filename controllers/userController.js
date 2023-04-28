@@ -31,8 +31,18 @@ exports.updateMe = catchAsync(async (req, res, next) => {
     );
   }
   // 2) Update user document
+  const user = await User.findByIdAndUpdate(req.user.id);
+  // if(!user) {
+  //   return next(new AppError(''));
+  // }
+  req.user.name = req.body.name?.trim() ?? req.user.name;
+  req.user.email = req.body.email?.trim() ?? req.user.email;
+  await req.user.save({ validateBeforeSave: false});
   res.status(200).json({
     status: 'success',
+    data: {
+      user: req.user,
+    },
   });
 });
 
