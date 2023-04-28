@@ -23,6 +23,11 @@ const createSendToken = (user, statusCode, res) => {
     cookieOptions.secure = true; 
   }
   res.cookie('jwt', token, cookieOptions);
+
+  // Remove password from output
+  user.password = undefined;
+  // user.passwordChangedAt = undefined;
+
   res.status(statusCode).json({
     status: 'success',
     token,
