@@ -56,8 +56,10 @@ exports.login = catchAsync(async (req, res, next) => {
   const password = req.body.password ?? '';
 
   // 1) Check if email and password exist
-  if (!email.trim() || !password?.trim()) {
-    return next(new AppError('Please provide email and password!', 400));
+  if(typeof email === 'string' && typeof password === 'string'){
+    if (!email.trim() || !password.trim()) {
+      return next(new AppError('Please provide email and password!', 400));
+    }
   }
 
   // 2) Check if user exists && password is correct
