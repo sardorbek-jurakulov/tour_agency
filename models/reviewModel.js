@@ -33,6 +33,22 @@ const reviewSchema = new mongoose.Schema(
   }
 );
 
+reviewSchema.pre(/^find/, function (next) {
+  // Bu mening tahminiy yechimim, u Jonasni kodi bilan bir xil natija qaytaryapti
+  // this.populate({
+  //   path: 'tour user',
+  //   select: 'name',
+  // });
+  this.populate({
+    path: 'tour',
+    select: 'name',
+  }).populate({
+    path: 'user',
+    select: 'name photo',
+  });
+  next();
+});
+
 const Review = mongoose.model('Review', reviewSchema);
 
 module.exports = Review;

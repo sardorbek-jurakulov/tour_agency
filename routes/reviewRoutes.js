@@ -6,8 +6,12 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(authController.protect, reviewController.getAllReviews)
-  .post(authController.protect, reviewController.createReview);
+  .get(reviewController.getAllReviews)
+  .post(
+    authController.protect,
+    authController.restrictTo('user'),
+    reviewController.createReview
+  );
 
 router
   .route('/:id')
