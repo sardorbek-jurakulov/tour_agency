@@ -114,10 +114,15 @@ exports.getTour = catchAsync(async (req, res, next) => {
   //     message: 'Tour not found',
   //   });
   // }
-  const tour = await Tour.findById(req.params.id);
+  const tour = await Tour.findById(req.params.id).populate({
+    path: 'guides',
+    select: '-_v -passwordChangedAt',
+  });
+
   if (!tour) {
     return next(new AppError(`No tour found with ${req.params.id} ID`, 404));
   }
+
   res.status(200).json({
     status: 'success',
     data: {
