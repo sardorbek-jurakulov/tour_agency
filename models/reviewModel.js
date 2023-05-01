@@ -1,25 +1,29 @@
-const mongoose = require('mongoose');
 // review / rating / createdAt / ref to tour / ref to user
+const mongoose = require('mongoose');
+
 const reviewSchema = new mongoose.Schema({
   review: {
     type: String,
-    required: [true, 'Review text must have been provided'],
+    required: [true, 'Review can not be empty'],
   },
   rating: {
     type: Number,
-    required: [true, 'Review rating must have been provided'],
+    min: 1,
+    max: 5,
   },
   createdAt: {
-    type: Date(),
+    type: Date,
     default: Date.now(),
   },
-  refToTour: {
+  tour: {
     type: mongoose.Schema.ObjectId,
     ref: 'Tour',
+    required: [true, 'Review must belong to a tour.'],
   },
-  refToUser: {
+  user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',
+    required: [true, 'Review must belong to a user'],
   },
 });
 
