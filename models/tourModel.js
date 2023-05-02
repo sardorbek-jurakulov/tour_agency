@@ -166,7 +166,8 @@ tourSchema.pre(/^find/, function (next) {
   this.populate({
     path: 'guides',
     select: '-__v -passwordChangedAt',
-  });
+  }).populate('reviews');
+  // .populate('reviews'); shu kodni o'zim qo'shtim sababi tour documentida reviews virtual propertysi ko'rinmayotgan edi.
   next();
 });
 
