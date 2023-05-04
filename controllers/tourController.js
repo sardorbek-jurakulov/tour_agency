@@ -29,7 +29,9 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getTour = catchAsync(async (req, res, next) => {
+// quyidagi factory.getOne() methodining ikkinchi parametrida berilgan populateni man tour modelida ham get all tour uchun ham get one tour uchun ishlaydigan qilib pre middleware'ida yozib qo'yganman, kodda kanflikt bo'lmasligi uchun bu yerga ham yozib qo'ydim.
+exports.getTour = factory.getOne(Tour, { path: 'reviews' });
+catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.id);
 
   if (!tour) {
