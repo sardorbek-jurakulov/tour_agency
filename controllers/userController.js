@@ -72,18 +72,12 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
 exports.createUser = (req, res) => {
   res.status(500).json({
     status: 'Internel server error',
-    message: 'This route is not yet defined!',
+    message: 'This route is not defined! Please use /signup instead',
     data: {},
   });
 };
 
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'Internel server error',
-    message: 'This route is not yet defined!',
-    data: {},
-  });
-};
+exports.getUser = factory.getOne(User);
 
 // Do Not update password with this!
 exports.updateUser = factory.updateOne(User);
