@@ -1,10 +1,10 @@
 const Review = require('./../models/reviewModel');
 const catchAsync = require('./../utils/catchAsync');
-const AppError = require('./../utils/appError');
+// const AppError = require('./../utils/appError');
 const factory = require('./handlerFactory');
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-  let filter = {}
+  let filter = {};
   if (req.params.tourId) {
     filter = { tour: req.params.tourId };
   }
@@ -18,23 +18,23 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getReview = catchAsync(async (req, res, next) => {
-  const reviewId = req.body.id ?? "";
-  if (reviewId === "") {
-    return next(new AppError("It is required for get a review", 400));
-  }
-  const review = await Review.findById(reviewId);
-  if (!review) {
-    return next(new AppError(`Review with ${reviewId} id is not found`, 404));
-  }
+// exports.getReview = catchAsync(async (req, res, next) => {
+//   const reviewId = req.body.id ?? "";
+//   if (reviewId === "") {
+//     return next(new AppError("It is required for get a review", 400));
+//   }
+//   const review = await Review.findById(reviewId);
+//   if (!review) {
+//     return next(new AppError(`Review with ${reviewId} id is not found`, 404));
+//   }
 
-  res.status(200).json({
-    status: 'success',
-    data: {
-      review,
-    },
-  });
-});
+//   res.status(200).json({
+//     status: 'success',
+//     data: {
+//       review,
+//     },
+//   });
+// });
 
 exports.setTourUserIds = (req, res, next) => {
   // Allow nested routes
@@ -45,7 +45,7 @@ exports.setTourUserIds = (req, res, next) => {
     req.body.user = req.user.id;
   }
   next();
-}
+};
 
 exports.getReview = factory.getOne(Review);
 exports.createReview = factory.createOne(Review);
