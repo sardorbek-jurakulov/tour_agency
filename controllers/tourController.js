@@ -1,5 +1,4 @@
 const Tour = require('../models/tourModel');
-const APIFeatures = require('../utils/apiFeatures');
 const catchAsync = require('../utils/catchAsync');
 // const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
@@ -12,23 +11,7 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 // route handlers
-exports.getAllTours = catchAsync(async (req, res, next) => {
-  const features = new APIFeatures(Tour.find(), req.query)
-    .filter()
-    .sort()
-    .limitFields()
-    .paginate();
-  const tours = await features.query;
-  res.status(200).json({
-    status: 'success',
-    requestedAt: req.requestTime,
-    results: tours.length,
-    data: {
-      tours,
-    },
-  });
-});
-
+exports.getAllTours = factory.getAll(Tour);
 // quyidagi factory.getOne() methodining ikkinchi parametrida berilgan populateni man tour modelida ham get all tour uchun ham get one tour uchun ishlaydigan qilib pre middleware'ida yozib qo'yganman, kodda kanflikt bo'lmasligi uchun bu yerga ham yozib qo'ydim.
 exports.getTour = factory.getOne(Tour, { path: 'reviews' });
 exports.createTour = factory.createOne(Tour);
