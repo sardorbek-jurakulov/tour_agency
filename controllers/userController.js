@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 const app = express();
 
@@ -92,10 +93,4 @@ exports.updateUser = (req, res) => {
   });
 };
 
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'Internel server error',
-    message: 'This route is not yet defined!',
-    data: {},
-  });
-};
+exports.deleteUser = factory.deleteOne(User);
