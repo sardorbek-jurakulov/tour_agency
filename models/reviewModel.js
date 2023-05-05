@@ -1,5 +1,6 @@
 // review / rating / createdAt / ref to tour / ref to user
 const mongoose = require('mongoose');
+const Tour = require('./tourModel');
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -70,7 +71,19 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
       },
     },
   ]);
+  console.log(stats);
+
+  Tour.findByIdAndUpdate(tourId, {
+    ratingsQuantity: stats[0].nRating,
+    ratingsAverage: stats[0].avgRating,
+  });
 };
+
+reviewSchema.post('save', function (next) {
+  // this points to current review
+  this.constructor.calcAverageRatings(this.tour);
+  next();
+});
 
 const Review = mongoose.model('Review', reviewSchema);
 
