@@ -123,6 +123,11 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+// bir qator pastdagi kod mongodbdan ma'lumotlarni tezroq topish imkonini beradi.
+tourSchema.index({ duration: 1 });
+tourSchema.index({ price: 1, ratingAverage: -1 });
+tourSchema.index({ slug: 1 });
+
 tourSchema.virtual('durationWeeks').get(function () {
   if (this.duration) {
     return this.duration / 7;
