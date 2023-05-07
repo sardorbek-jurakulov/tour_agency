@@ -16,8 +16,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 const app = express();
 
 app.set('view engine', 'pug');
-// app.set('view', './views');
-app.set('view', path.join(__dirname, 'views'));
+// app.set('views', './views');
+app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
@@ -70,6 +70,12 @@ app.use((req, res, next) => {
 // Serving static files
 // app.use(express.static(`${__dirname}/public`));
 app.use(express.static(path.join(__dirname, 'public')));
+
+// 3) ROUTES
+app.get('/', (req, res) => {
+  res.status(200).render('base');
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
