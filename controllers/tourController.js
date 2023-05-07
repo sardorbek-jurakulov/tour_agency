@@ -149,8 +149,16 @@ exports.getDistances = catchAsync(async (req, res, next) => {
         near: {
           type: 'Point',
           coordinates: [lng * 1, lat * 1],
-        }
+        },
+        distanceField: 'distance',
       },
     },
   ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: distances,
+    },
+  });
 });

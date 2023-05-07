@@ -16,6 +16,7 @@ const tourSchema = new mongoose.Schema(
     },
     slug: {
       type: String,
+      index: true,
     },
     duration: {
       type: Number,
@@ -125,10 +126,10 @@ const tourSchema = new mongoose.Schema(
 );
 
 // bir qator pastdagi kod mongodbdan ma'lumotlarni tezroq topish imkonini beradi.
-tourSchema.index({ duration: 1 });
+// tourSchema.index({ duration: 1 });
+tourSchema.index({ startLocation: '2dsphere ' });
 tourSchema.index({ price: 1, ratingAverage: -1 });
 tourSchema.index({ slug: 1 });
-tourSchema.index({ startLocation: '2dsphere ' });
 
 tourSchema.virtual('durationWeeks').get(function () {
   if (this.duration) {
@@ -185,11 +186,11 @@ tourSchema.pre(/^find/, function (next) {
 // });
 
 // AGGREGATE MIDDLEWARE
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  // console.log(this.pipeline());
-  next();
-});
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   // console.log(this.pipeline());
+//   next();
+// });
 
 const Tour = mongoose.model('Tour', tourSchema);
 
