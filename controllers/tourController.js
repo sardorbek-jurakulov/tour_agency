@@ -123,6 +123,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
+    resoults: tours.length,
     data: {
       tours,
     },
