@@ -97,9 +97,16 @@ exports.getMonthlyPlan = catchAsync(async (req, res, next) => {
   });
 });
 
-exports.getToursWithin = (req, res, next) => {
+exports.getToursWithin = catchAsync(async (req, res, next) => {
   const { distance, latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
+
+  const radiusOfEarthInMil = 3963.2;
+  const radiusOfEarthInKilometr = 6378.1;
+  const radius =
+    unit === 'mi'
+      ? distance / radiusOfEarthInMil
+      : distance / radiusOfEarthInKilometr;
 
   if (!lat || !lng) {
     next(
@@ -110,10 +117,14 @@ exports.getToursWithin = (req, res, next) => {
     );
   }
 
-  console.log(distance, lat, lng, unit);
+  const tours = await Tour.find({
+    startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
+  });
 
   res.status(200).json({
     status: 'success',
-    data: 'not send for now',
+    data: {
+      tours,
+    },
   });
-};
+});
