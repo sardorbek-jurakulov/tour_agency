@@ -1,4 +1,5 @@
 const express = require('express');
+const viewsController = require('../controllers/viewsController');
 
 const router = express.Router();
 
@@ -9,11 +10,7 @@ router.get('/', (req, res) => {
   });
 });
 
-router.get('/overview', (req, res) => {
-  res.status(200).render('overview', {
-    title: 'All tours',
-  });
-});
+router.get('/overview', viewsController.getOverview);
 
 router.get('/tour', (req, res) => {
   res.status(200).render('tour', {
