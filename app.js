@@ -79,6 +79,18 @@ app.get('/', (req, res) => {
   });
 });
 
+app.get('/overview', (req, res) => {
+  res.status(200).render('verview', {
+    title: 'All tours',
+  });
+});
+
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', {
+    title: 'All tours',
+  });
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
