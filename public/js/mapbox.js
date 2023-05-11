@@ -7,6 +7,7 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoiam9uYXNzY2htZWR0bWFubiIsImEiOiJjam54ZmM5N3gwN
 var map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/jonasschmedtmann/cjvi9q8jd04mi1cpgmg7ev3dy',
+  scrollZoom: false,
   // center: [-118.11, 34.11],
   // zoom: 10,
   // interactive: false
