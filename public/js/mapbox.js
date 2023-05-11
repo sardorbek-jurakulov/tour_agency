@@ -25,7 +25,20 @@ locations.forEach(loc => {
     anchor: 'bottom',
   }).setLngLat(loc.coordinates).addTo(map);
 
+  // Add popup
+  new mapboxgl.Popup()
+    .setLngLat(loc.coordinates)
+    .setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`);
+
   // Extend map bounds to include current location
   bounds.extend(loc.coordinates);
 });
 
+map.fitBounds(bounds, {
+  padding: {
+    top: 200,
+    bottom: 200,
+    left: 100,
+    right: 100,
+  },
+});
