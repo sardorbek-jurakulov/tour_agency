@@ -1,6 +1,6 @@
 const locations = JSON.parse(document.getElementById('map').dataset.locations);
 
-let map = L.map('map', { zoomControl: false });
+var map = L.map('map', { zoomControl: false });
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution:
