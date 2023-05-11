@@ -14,3 +14,18 @@ var map = new mapboxgl.Map({
 
 const bounds = new mapboxgl.LatLngBounds();
 
+locations.forEach(loc => {
+  // Create marker
+  const el = document.createElement('div');
+  el.className = 'marker';
+
+  // Add marker
+  new mapboxgl.Marker({
+    element: el, 
+    anchor: 'bottom',
+  }).setLngLat(loc.coordinates).addTo(map);
+
+  // Extend map bounds to include current location
+  bounds.extend(loc.coordinates);
+});
+
