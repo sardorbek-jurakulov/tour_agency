@@ -24,7 +24,7 @@
 
 // map.scrollWheelZoom.disable();
 
-// 11 oy oldin yozilgan commentariyada ko'rsatilgan yechim
+// 11 oy oldin yozilgan commentariyada ko'rsatilgan yechim - bu yechim ham menda ishlamadi, loyihani map qisimini tashlab ketyapman.
 /* eslint-disable */
  
 // ----------------------------------------------
