@@ -1,6 +1,6 @@
 /* eslint-disable */
-import '@babel/polyfill';
 import axios from 'axios';
+import { showAlert } from './alerts';
 
 export const login = async (email, password) => {
   try {
@@ -14,12 +14,12 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      alert('Logged in successfully!');
+      showAlert('Logged in successfully!');
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
     }
   } catch (err) {
-    alert(err?.response?.data?.message);
+    showAlert('error', err?.response?.data?.message);
   }
 };
