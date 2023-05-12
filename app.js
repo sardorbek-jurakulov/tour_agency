@@ -23,6 +23,8 @@ app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
 // Set security HTTP headers
+// app.use(helmet());
+
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
@@ -86,6 +88,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  console.log(req.cookies);
   next();
 });
 
