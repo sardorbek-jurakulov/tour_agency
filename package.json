@@ -14,7 +14,7 @@
     "watch:js:on:one:solution:in:comment": "parcel serve ./public/js/index.js --dist-dir ./public/js/bundled",
     "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js/bundled --out-file bundle.js",
     "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build": "parcel watch ./public/js/index.js --dist-dir ./public/js/bundled"
+    "build": "parcel watch --no-hmr ./public/js/index.js --dist-dir ./public/js/bundled"
   },
   "author": "Sardorbek Jurakulov",
   "license": "ISC",
