@@ -1,15 +1,19 @@
 /* eslint-disable */
 
 const login = async (email, password) => {
-  const res = await axios({
-    method: 'POST',
-    url: 'http://localhost:3000/api/v1/users/login',
-    data: {
-      email,
-      password
-    }
-  });
-  console.log(res);
+  try {
+    const res = await axios({
+      method: 'POST',
+      url: 'http://localhost:3000/api/v1/users/login',
+      data: {
+        email,
+        password
+      }
+    });
+    console.log(res);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 document.querySelector('.form').addEventListener('submit', (e) => {
