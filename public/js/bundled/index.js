@@ -7645,6 +7645,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login
 );
+parcelHelpers.export(exports, "logout", ()=>logout
+);
 /* eslint-disable */ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
@@ -7666,6 +7668,16 @@ const login = async (email, password)=>{
         }
     } catch (err) {
         _alerts.showAlert('error', err.response.data.message);
+    }
+};
+const logout = async ()=>{
+    try {
+        const res = await _axiosDefault.default({
+            method: 'GET',
+            url: 'http://localhost:3000/api/v1/users/logout'
+        });
+    } catch (err) {
+        _alerts.showAlert('error', 'Error logging out! Try again.');
     }
 };
 
