@@ -7676,6 +7676,8 @@ const logout = async ()=>{
             method: 'GET',
             url: 'http://localhost:3000/api/v1/users/logout'
         });
+        res.data.status = 'success';
+        location.reload(true);
     } catch (err) {
         _alerts.showAlert('error', 'Error logging out! Try again.');
     }

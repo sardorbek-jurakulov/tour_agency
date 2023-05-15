@@ -25,17 +25,20 @@ if (loginForm)
     login(email, password);
   });
 
-if (logOutBtn) logOutBtn.addEventListener('click', logout);
+if (logOutBtn) {
+  logOutBtn.addEventListener('click', logout);
+}
 
-if (userDataForm)
+if (userDataForm) {
   userDataForm.addEventListener('submit', e => {
     e.preventDefault();
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     updateSettings({ name, email }, 'data');
   });
+}
 
-if (userPasswordForm)
+if (userPasswordForm) {
   userPasswordForm.addEventListener('submit', async e => {
     e.preventDefault();
     document.querySelector('.btn--save-password').textContent = 'Updating...';
@@ -53,3 +56,5 @@ if (userPasswordForm)
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
   });
+}
+
