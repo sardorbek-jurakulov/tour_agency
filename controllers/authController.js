@@ -10,7 +10,7 @@ const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-}
+};
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
@@ -19,9 +19,10 @@ const createSendToken = (user, statusCode, res) => {
     // secure: true, // https bo'lsa ishla degani, agar http bo'lsa ishlamaydi.
     httpOnly: true,
   };
-  if(process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {
     cookieOptions.secure = true; 
   }
+
   res.cookie('jwt', token, cookieOptions);
 
   // Remove password from output
@@ -36,8 +37,8 @@ const createSendToken = (user, statusCode, res) => {
     },
   });
 }
+
 exports.signup = catchAsync(async (req, res, next) => {
-  // const newUser = await User.create(req.body);
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
@@ -46,6 +47,10 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt: req.body.passwordChangedAt || Date.now(),
     role: req.body.role,
   });
+
+  const url = `${req.protocol}://${req.get('host')}/me`;
+  console.log(url);
+  await new Email(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
