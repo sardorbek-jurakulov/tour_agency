@@ -1,6 +1,7 @@
 {
   "name": "natours",
   "version": "1.0.0",
+  "type": "commonjs",
   "description": "Learning node, express and mongoDB",
   "main": "app.js",
   "targets": {
@@ -11,10 +12,8 @@
     "start:prod": "NODE_ENV=production nodemon server.js",
     "start:prod:win": "SET NODE_ENV=production&&nodemon server.js",
     "debug": "ndb server.js",
-    "watch:js:on:one:solution:in:comment": "parcel serve ./public/js/index.js --dist-dir ./public/js/bundled",
-    "watch:js": "parcel watch ./public/js/index.js --out-dir ./public/js/bundled --out-file bundle.js",
-    "build:js": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
-    "build": "parcel watch --no-hmr ./public/js/index.js --dist-dir ./public/js/bundled"
+    "watch:js": "parcel serve ./public/js/index.js --dist-dir ./public/js/bundled",
+    "build": "parcel build ./public/js/index.js --dist-dir ./public/js/bundled"
   },
   "author": "Sardorbek Jurakulov",
   "license": "ISC",
@@ -49,7 +48,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.32.2",
     "parcel": "^2.0.0-rc.0",
-    "parcel-bundler": "^1.12.5",
     "prettier": "^2.8.7"
   },
   "engines": {

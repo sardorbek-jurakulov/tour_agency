@@ -70,6 +70,7 @@ app.use(
           'https://*.cloudflare.com/',
           'https://bundle.js:*',
           'ws://127.0.0.1:*/',
+          `ws://localhost:8080/`,
         ],
         upgradeInsecureRequests: [],
       },
@@ -120,7 +121,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 
