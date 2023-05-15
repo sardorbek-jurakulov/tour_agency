@@ -26,39 +26,59 @@ const handleJWTExpiredError = () =>
   new AppError('Your login time has been expired! Please log in again', 401);
 
 const sendErrorDev = (err, req, res) => {
-  // API
+  // A) API
   if(req.originalUrl.startsWith('/api')) {
-    res.status(err.statusCode).json({
+    return res.status(err.statusCode).json({
       status: err.status,
       error: err,
       message: err.message,
       stack: err.stack,
     });
-  } else {
-  // RENDERED WEBSITE
-    res.status(err.statusCode).render('error', {
-      title: 'Somethingwent wrong!',
-      msg: err.message,
-    });
   }
+
+  // B) RENDERED WEBSITE
+  return res.status(err.statusCode).render('error', {
+    title: 'Somethingwent wrong!',
+    msg: err.message,
+  });
 };
 
 const sendErrorProd = (err, req, res) => {
-  // Operational, trusted error: send message to client
+  // A) API
+  if (req.originalUrl.startsWith('/api')) {
+    // A) Operational, trusted error: send message to client
+    if (err.isOperational) {
+      return res.status(err.statusCode).json({
+        status: err.status,
+        message: err.message,
+      });
+    }
+    // B) Programming or other  unknown error: don't leak error details
+    // 1) Log error
+    console.error('ERROR', err);
+    // 2) Send generic message
+    return res.status(500).json({
+      status: 'error',
+      message: 'Something went very wrong!',
+    });
+  }
+
+  // B) RENDERED WEBSITE
   if (err.isOperational) {
-    res.status(err.statusCode).json({
-      status: err.status,
-      message: err.message,
+    res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: err.message,
     });
 
     // Programming or other  unknown error: don't leak error details
   } else {
     // 1) Log error
     console.error('ERROR', err);
+
     // 2) Send generic message
-    res.status(500).json({
-      status: 'error',
-      message: 'Something went very wrong!',
+    res.status(err.statusCode).render('error', {
+      title: 'Something went wrong!',
+      msg: 'Please try again later.',
     });
   }
 };
