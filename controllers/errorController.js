@@ -26,6 +26,7 @@ const handleJWTExpiredError = () =>
   new AppError('Your login time has been expired! Please log in again', 401);
 
 const sendErrorDev = (err, req, res) => {
+  // API
   if(req.originalUrl.startsWith('/api')) {
     res.status(err.statusCode).json({
       status: err.status,
@@ -34,8 +35,10 @@ const sendErrorDev = (err, req, res) => {
       stack: err.stack,
     });
   } else {
+  // RENDERED WEBSITE
     res.status(err.status).render('error', {
-      title: 'Something went wrong!'
+      title: 'Somethingwent wrong!',
+      msg: err.message,
     });
   }
 };
