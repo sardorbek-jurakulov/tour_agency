@@ -11884,22 +11884,21 @@ const showAlert = (type, msg)=>{
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"JacNc"}],"keNDf":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "updateData", ()=>updateData
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings
 );
 /* eslint-disable */ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
-const updateData = async (name, email)=>{
+const updateSettings = async (data, type)=>{
     try {
+        const url = type === 'password' ? 'http://localhost:3000/api/v1/users/updateMyPassword' : 'http://localhost:3000/api/v1/users/updateMe';
         const res = await _axiosDefault.default({
             method: 'PATCH',
-            url: 'http://localhost:3000/api/v1/users/updateMe',
-            data: {
-                name,
-                email
-            }
+            url,
+            data
         });
-        if (res.data.status === 'success') _alerts.showAlert('success', 'Data updated successfully');
+        console.log(res);
+        if (res.data.status === 'success') _alerts.showAlert('success', `${type.toUpperCase()} updated successfully`);
     } catch (err) {
         _alerts.showAlert('error', err.response.data.message);
     }
