@@ -15,49 +15,35 @@ block content
         +navItem('#', 'Settings', 'settings', true)
         +navItem('#', 'My bookings', 'briefcase', false)
         +navItem('#', 'My reviews', 'star', false)
-        +navItem('#', 'Billing', 'card', false)
-        //- li.side-nav--active
-        //-   a(href='#')
-        //-     svg
-        //-       use(xlink:href='img/icons.svg#icon-settings')
-        //-     | Settings
-        //- li
-        //-   a(href='#')
-        //-     svg
-        //-       use(xlink:href='img/icons.svg#icon-briefcase')
-        //-     | My bookings
-        //- li
-        //-   a(href='#')
-        //-     svg
-        //-       use(xlink:href='img/icons.svg#icon-star')
-        //-     | My reviews
-        //- li
-        //-   a(href='#')
-        //-     svg
-        //-       use(xlink:href='img/icons.svg#icon-credit-card')
-        //-     | Billing
-      .admin-nav
-        h5.admin-nav__heading Admin
-        ul.side-nav
-          li
-            a(href='#')
-              svg
-                use(xlink:href='img/icons.svg#icon-map')
-              | Manage tours
-          li
-            a(href='#')
-              svg
-                use(xlink:href='img/icons.svg#icon-users')
-              | Manage users
-          li
-            a(href='#')
-              svg
-                use(xlink:href='img/icons.svg#icon-star')
-              | Manage reviews
-          li
-            a(href='#')
-              svg
-                use(xlink:href='img/icons.svg#icon-briefcase')
+        +navItem('#', 'Billing', 'credit-card', false)
+
+      - if (user.role === 'admin')
+        .admin-nav
+          h5.admin-nav__heading Admin
+          ul.side-nav
+            +navItem('#', 'Manage tours', 'map', false)
+            +navItem('#', 'Manage users', 'users', false)
+            +navItem('#', 'Manage reviews', 'star', false)
+            +navItem('#', 'Manage tours', 'briefcase', false)
+            //- li
+            //-   a(href='#')
+            //-     svg
+            //-       use(xlink:href='img/icons.svg#icon-map')
+            //-     | Manage tours
+            //- li
+            //-   a(href='#')
+            //-     svg
+            //-       use(xlink:href='img/icons.svg#icon-users')
+            //-     | Manage users
+            //- li
+            //-   a(href='#')
+            //-     svg
+            //-       use(xlink:href='img/icons.svg#icon-star')
+            //-     | Manage reviews
+            //- li
+            //-   a(href='#')
+            //-     svg
+            //-       use(xlink:href='img/icons.svg#icon-briefcase')
 
     .user-view__content
       .user-view__form-container
