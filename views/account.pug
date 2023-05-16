@@ -12,26 +12,30 @@ block content
   .user-view
     nav.user-view__menu
       ul.side-nav
-        li.side-nav--active
-          a(href='#')
-            svg
-              use(xlink:href='img/icons.svg#icon-settings')
-            | Settings
-        li
-          a(href='#')
-            svg
-              use(xlink:href='img/icons.svg#icon-briefcase')
-            | My bookings
-        li
-          a(href='#')
-            svg
-              use(xlink:href='img/icons.svg#icon-star')
-            | My reviews
-        li
-          a(href='#')
-            svg
-              use(xlink:href='img/icons.svg#icon-credit-card')
-            | Billing
+        +navItem('#', 'Settings', 'settings', true)
+        +navItem('#', 'My bookings', 'briefcase', false)
+        +navItem('#', 'My reviews', 'star', false)
+        +navItem('#', 'Billing', 'card', false)
+        //- li.side-nav--active
+        //-   a(href='#')
+        //-     svg
+        //-       use(xlink:href='img/icons.svg#icon-settings')
+        //-     | Settings
+        //- li
+        //-   a(href='#')
+        //-     svg
+        //-       use(xlink:href='img/icons.svg#icon-briefcase')
+        //-     | My bookings
+        //- li
+        //-   a(href='#')
+        //-     svg
+        //-       use(xlink:href='img/icons.svg#icon-star')
+        //-     | My reviews
+        //- li
+        //-   a(href='#')
+        //-     svg
+        //-       use(xlink:href='img/icons.svg#icon-credit-card')
+        //-     | Billing
       .admin-nav
         h5.admin-nav__heading Admin
         ul.side-nav
