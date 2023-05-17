@@ -11897,7 +11897,6 @@ const updateSettings = async (data, type)=>{
             url,
             data
         });
-        console.log(res);
         if (res.data.status === 'success') _alerts.showAlert('success', `${type.toUpperCase()} updated successfully`);
     } catch (err) {
         _alerts.showAlert('error', err.response.data.message);

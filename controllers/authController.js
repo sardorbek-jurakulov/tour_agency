@@ -45,12 +45,12 @@ exports.signup = catchAsync(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt || Date.now(),
-    role: req.body.role,
+    // role: req.body.role,
   });
 
-  const url = `${req.protocol}://${req.get('host')}/me`;
-  console.log(url);
-  await new Email(newUser, url).sendWelcome();
+  // const url = `${req.protocol}://${req.get('host')}/me`;
+  // console.log(url);
+  // await new sendEmail(newUser, url).sendWelcome();
 
   createSendToken(newUser, 201, res);
 });
