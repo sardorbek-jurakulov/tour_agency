@@ -37,14 +37,15 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
   }
 
   // 1) Cover image
-  await sharp(req.files.imageCover.buffer)
-    .resize(500, 500)
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+  await sharp(req.files.imageCover[0].buffer)
+    .resize(2000, 1333)
     .toFormat('jpeg')
     .jpeg({ quality: 90 })
-    .toFile(`public/img/users/${req.file.filename}`);
+    .toFile(`public/img/tours/${req.body.imageCover}`);
 
   // 2) Images
-  
+
   next();
 });
 
