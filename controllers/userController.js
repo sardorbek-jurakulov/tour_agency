@@ -1,4 +1,5 @@
 const express = require('express');
+const sharp = require('sharp');
 const multer = require('multer');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
@@ -8,15 +9,17 @@ const factory = require('./handlerFactory');
 const app = express();
 app.use(express.json());
 
-const multerStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/users');
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
-  },
-});
+// const multerStorage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'public/img/users');
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = file.mimetype.split('/')[1];
+//     cb(null, `user-${req.user.id}-${Date.now()}.${ext}`);
+//   },
+// });
+// quyidagi kod ramsni RAM ga buffer formatida saqlab beradi, buffer formatini esa sharpda ishlatilinadi. Bu usul rasmni birinchi diskga saqlab keyin olib bufferga convert qilib keyin sharp'ga berishdan ko'ra tezroq bo'ladi. Yuqoridagi kod rasmni olib xotiraga saqlardi. Agar rasmni o'lchamini o'zgartirish kerak bo'lmasa bizga yuqoridagi usuldan ham foydalansak bo'ladi, agar o'zgartirish kerak bo'lsa quyidagi usuldan foydalanamiz.
+const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
@@ -35,6 +38,16 @@ exports.resizeUserPhoto = (req, res, next) => {
   if (!req.file) {
     return next();
   }
+
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+
+  sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${req.file.filename}`);
+
+  next();
 };
 
 const filterObj = (obj, ...allowedFields) => {
