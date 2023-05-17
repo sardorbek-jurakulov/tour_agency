@@ -8,6 +8,12 @@ const factory = require('./handlerFactory');
 const app = express();
 app.use(express.json());
 
+const multerStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/img/users');
+  },
+});
+
 const upload = multer({ dest: 'public/img/users' });
 exports.uploadUserPhoto = upload.single('photo');
 
