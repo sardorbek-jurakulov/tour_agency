@@ -33,7 +33,9 @@ const upload = multer({
   storage: multerStorage,
   fileFilter: multerFilter,
 });
+// single() methodi bir vaqtning o'zida faqat bitta rasmni tanlash imkonini beradi.
 exports.uploadUserPhoto = upload.single('photo');
+
 exports.resizeUserPhoto = (req, res, next) => {
   if (!req.file) {
     return next();
