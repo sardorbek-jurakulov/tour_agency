@@ -29,10 +29,24 @@ exports.uploadTourImages = upload.fields([
 // upload.single('image'); req.file
 // upload.array('images', 5); req.files
 
-exports.resizeTourImages = (req, res, next) => {
+exports.resizeTourImages = catchAsync(async (req, res, next) => {
   console.log(req.files);
+
+  if (!req.files.imageCover || !req.files.images) {
+    return next();
+  }
+
+  // 1) Cover image
+  await sharp(req.files.imageCover.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/users/${req.file.filename}`);
+
+  // 2) Images
+  
   next();
-};
+});
 
 exports.aliasTopTours = (req, res, next) => {
   req.query.limit = '5';
