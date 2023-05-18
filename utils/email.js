@@ -6,18 +6,26 @@ module.exports = class Email {
     this.url = url;
     this.from = `Sardorbek Jurakulov <${process.env.EMAIL_FROM}>`;
   }
+
+  createTransport() {
+    if (process.env.NODE_ENV === 'production') {
+      // Sendgrid
+      return 1;
+    }
+
+    return nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+  }
+
+  send();
 };
 const sendEmail = async (options) => {
-  // 1) Create a transporter
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USERNAME,
-      pass: process.env.EMAIL_PASSWORD,
-    },
-  });
-
   // 2) Define the email options
   const mailOptions = {
     from: 'Sardorbek Jurakulov <sardorbek.juraqulov@gmail.com>',
@@ -30,5 +38,3 @@ const sendEmail = async (options) => {
   // 3) Actually send the email
   await transporter.sendMail(mailOptions);
 };
-
-module.exports = sendEmail;
