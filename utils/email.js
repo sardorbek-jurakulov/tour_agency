@@ -1,5 +1,6 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
+const htmlToText = require('html-to-text');
 
 module.exports = class Email {
   constructor(user, url) {
@@ -28,7 +29,14 @@ module.exports = class Email {
   // Send the actual email
   send(template, subject) {
     // 1) Render HTML based on a pug template
-    const html = pug.renderFile(`${__dirname}/../views/emails/${template}.pug`);
+    const html = pug.renderFile(
+      `${__dirname}/../views/emails/${template}.pug`,
+      {
+        firstName: this.firstName,
+        url: this.url,
+        subject,
+      }
+    );
 
     // 2) Define email options
     const mailOptions = {
@@ -36,20 +44,15 @@ module.exports = class Email {
       to: this.to,
       subject,
       html,
-      text: options.message,
+      text: htmlToText.fromString(html),
     };
 
     // 3) Create a transport and send email
+    this.newTransport();
+    await transporter.sendMail(mailOptions);
   }
 
   sendWelcome() {
     this.send('welcome', 'Welcome to the Natours Family!');
   }
-};
-
-const sendEmail = async (options) => {
-  // 2) Define the email options
-
-  // 3) Actually send the email
-  await transporter.sendMail(mailOptions);
 };
