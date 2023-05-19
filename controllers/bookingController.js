@@ -1,7 +1,4 @@
 const Stripe = require('stripe');
-// const stripe = require('stripe')(
-//   'sk_test_51N9KXcJcWjJ4YG456ZQeqZXhchjjGHGqrCMaXiMQEufY1nMfz9pkSEXerKPpamXIHulljXiYegTkT4i3KDHjE7LK00oJqg9hvQ'
-// );
 const Tour = require('../models/tourModel');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
