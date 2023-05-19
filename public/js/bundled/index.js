@@ -476,7 +476,10 @@ if (loginForm) loginForm.addEventListener('submit', (e)=>{
     const password = document.getElementById('password').value;
     _login.login(email, password);
 });
-if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
+if (logOutBtn) {
+    console.log("Logout fucntion is called");
+    logOutBtn.addEventListener('click', _login.logout);
+}
 if (userDataForm) userDataForm.addEventListener('submit', (e)=>{
     e.preventDefault();
     const form = new FormData();
