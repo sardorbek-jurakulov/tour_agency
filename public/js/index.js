@@ -25,8 +25,7 @@ if (loginForm)
     login(email, password);
   });
 
-if (logOutBtn) {
-  console.log("Logout fucntion is called");
+if (logOutBtn) {  
   logOutBtn.addEventListener('click', logout);
 }
 

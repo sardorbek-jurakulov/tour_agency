@@ -476,10 +476,7 @@ if (loginForm) loginForm.addEventListener('submit', (e)=>{
     const password = document.getElementById('password').value;
     _login.login(email, password);
 });
-if (logOutBtn) {
-    console.log("Logout fucntion is called");
-    logOutBtn.addEventListener('click', _login.logout);
-}
+if (logOutBtn) logOutBtn.addEventListener('click', _login.logout);
 if (userDataForm) userDataForm.addEventListener('submit', (e)=>{
     e.preventDefault();
     const form = new FormData();
@@ -7675,6 +7672,7 @@ const login = async (email, password)=>{
 };
 const logout = async ()=>{
     try {
+        console.log("Logout fucntion is called");
         const res = await _axiosDefault.default({
             method: 'GET',
             url: 'http://localhost:3000/api/v1/users/logout'
