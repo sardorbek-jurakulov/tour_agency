@@ -7679,7 +7679,6 @@ const login = async (email, password)=>{
 };
 const logout = async ()=>{
     try {
-        console.log("Logout fucntion is called");
         const res = await _axiosDefault.default({
             method: 'GET',
             url: 'http://localhost:3000/api/v1/users/logout'
