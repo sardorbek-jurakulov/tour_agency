@@ -7661,7 +7661,7 @@ const login = async (email, password)=>{
     try {
         const res = await _axiosDefault.default({
             method: 'POST',
-            url: 'http://localhost:3000/api/v1/users/login',
+            url: '/api/v1/users/login',
             data: {
                 email,
                 password
@@ -7681,7 +7681,7 @@ const logout = async ()=>{
     try {
         const res = await _axiosDefault.default({
             method: 'GET',
-            url: 'http://localhost:3000/api/v1/users/logout'
+            url: '/api/v1/users/logout'
         });
         res.data.status = 'success';
         location.reload(true);
@@ -11898,7 +11898,7 @@ var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _alerts = require("./alerts");
 const updateSettings = async (data, type)=>{
     try {
-        const url = type === 'password' ? 'http://localhost:3000/api/v1/users/updateMyPassword' : 'http://localhost:3000/api/v1/users/updateMe';
+        const url = type === 'password' ? '/api/v1/users/updateMyPassword' : '/api/v1/users/updateMe';
         const res = await _axiosDefault.default({
             method: 'PATCH',
             url,
@@ -11922,7 +11922,7 @@ const bookTour = async (tourId)=>{
     const stripe = Stripe('pk_test_51N9KXcJcWjJ4YG45ujZJwf5nLKyjvswEcL6g4yaWnXTHknjwKLKyf5IhWjCzxM566YHUdzsBuID6lx2hBxIbvbAq005Y0nK9b8');
     try {
         // 1) Get checkout session from API
-        const session = await _axiosDefault.default(`http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`);
+        const session = await _axiosDefault.default(`/api/v1/bookings/checkout-session/${tourId}`);
         console.log(session);
         // 2) Create checkout form + charge credit card
         await stripe.redirectToCheckout({
