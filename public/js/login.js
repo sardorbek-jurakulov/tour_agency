@@ -33,7 +33,6 @@ export const logout = async () => {
 
     if (res.data.status = 'success') {
       location.reload(true);
-      // res.status(301).redirect('http://localhost:3000');
     }
   } catch(err) {
     showAlert('error', 'Error logging out! Try again.');
