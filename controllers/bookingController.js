@@ -13,9 +13,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     expand: ['line_items'],
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/?tour=${
-      req.params.tourId
-    }&user=${req.user.id}&price=${tour.price}`,
+    // success_url: `${req.protocol}://${req.get('host')}/?tour=${
+    //   req.params.tourId
+    // }&user=${req.user.id}&price=${tour.price}`,
+    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
@@ -58,7 +59,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 
 // webhook ishlatgan holda bajarilgan holati
 exports.webhookCheckout = (req, res, next) => {
-  
+
 };
 
 exports.createBooking = factory.createOne(Booking);
