@@ -39,3 +39,11 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
   });
 });
+
+// quyidagi process.on() methodi faqatgina heroku uchun yozildi. Sababi heroku har 24 soatda loyihamizni o'chirish uchun nimadir jo'natar ekan.
+process.on('SIGTERM', () => {
+  console.log('SIGTERM RECEIVED. Shutting down gracefully');
+  server.close(() => {
+    console.log('Process terminated!');
+  });
+});
