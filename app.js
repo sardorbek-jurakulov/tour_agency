@@ -37,8 +37,9 @@ app.use(cors());
 //   })
 // );
 
-// qaysi methodlarga ruhsat berilishi get, post ...
+// qaysi routelarga cors ruxsat berishi sozlab qo'yilgan.
 app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 // Serving static files
 // app.use(express.static(`${__dirname}/public`));
