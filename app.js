@@ -115,11 +115,11 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // bitta keyingi qatordagi kodni body parser ya'ni express.json() dan oldin turishi muhum.
-app.post(
-  '/webhook-checkout',
-  express.row({ type: 'application/json' }),
-  bookingController.webhookCheckout
-);
+// app.post(
+//   '/webhook-checkout',
+//   express.row({ type: 'application/json' }),
+//   bookingController.webhookCheckout
+// );
 
 // Body parser, reading data from body into req.body
 app.use(express.json({ limit: '10kb' }));
